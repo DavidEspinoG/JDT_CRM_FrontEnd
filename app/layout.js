@@ -12,14 +12,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="min-h-screen">
-          <div className=" min-h-screen">
-            <Sidebar />
-
+        <main className="flex">
+          <Sidebar />
+          <div className="p-5 bg-gray-200 sm:w-2/3 xl:w-4/5">
+            {children}
           </div>
-          {children}
-        </div>
-        
+        </main>
       </body>
     </html>
   );

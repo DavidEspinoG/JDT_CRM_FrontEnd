@@ -1,7 +1,11 @@
-export default function Home() {
-  return (
-    <main>
-      <h1>From home</h1>
-    </main>
-  );
+import SectionTitle from "./components/SectionTitle";
+
+const Clients = () => {
+    return (
+        <>
+            <SectionTitle>Clients</SectionTitle>
+        </>
+    )
 }
+
+export default Clients;
