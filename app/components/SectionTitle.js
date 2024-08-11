@@ -1,7 +1,8 @@
-const SectionTitle = ({ children }) => {
+const SectionTitle = ({ children, className }) => {
+    let styles = `text-2xl text-gray-800 font-light ${className}`;
     return (
         <>
-            <h1 className="text-2xl text-gray-800 font-light">{children}</h1>
+            <h1 className={styles}>{children}</h1>
         </>
     )
 };
