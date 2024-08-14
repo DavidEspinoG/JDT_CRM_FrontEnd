@@ -8,7 +8,8 @@ const Sidebar = () => {
         { href: '/orders', displayText: 'Orders' },
         { href: '/', displayText: 'Clients' },
         { href: '/products', displayText: 'Products' },
-        { href: '/login', displayText: 'Log in' }
+        { href: '/login', displayText: 'Log in' },
+        { href: '/signin', displayText: 'Sign in' }
     ]
     return (
         <aside className="bg-gray-800 w-full sm:w-1/3 xl:w-1/5 min-h-screen p-5">
