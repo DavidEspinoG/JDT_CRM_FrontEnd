@@ -1,7 +1,8 @@
 'use client'
-
 import SectionTitle from "../components/SectionTitle";
 import { useFormik } from 'formik';
+import { object, string } from 'yup';
+import FormError from "../components/FormError";
 
 const SignIn = () => {
     const labelStyles = "text-gray-700 font-bold";
@@ -12,13 +13,18 @@ const SignIn = () => {
             lastName: '',
             email: '',
             password: ''
-        }, 
+        },
+        validationSchema: object({
+            name: string().required('Name is a required field'),
+            lastName: string().required('Lastname is a required field'), 
+            email: string().email().required('E-mail is a required field'), 
+            password: string().min(5, 'The password should have at least 5 characters')
+        }), 
         onSubmit: (values) => {
             console.log(values);
         }
     });
     
-
     return (
         <>  
         <section className="flex w-full justify-center h-full items-center">
@@ -30,19 +36,31 @@ const SignIn = () => {
                     <label className={labelStyles} htmlFor="name">
                         Name
                     </label>
-                    <input placeholder="Your name" id="name" className={inputStyles} value={formik.values.name} onChange={formik.handleChange}/>
+                    <input placeholder="Your name" id="name" className={inputStyles} value={formik.values.name} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                    { formik.touched.name && formik.errors.name ? (
+                        <FormError message={formik.errors.name} />
+                    ) : null }
                     <label className={labelStyles} htmlFor="lastname">
                         Last Name
                     </label>
-                    <input placeholder="Your last name" id="lastName" className={inputStyles} value={formik.values.lastName} onChange={formik.handleChange}/>
+                    <input placeholder="Your last name" id="lastName" className={inputStyles} value={formik.values.lastName} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                    { formik.touched.lastName && formik.errors.lastName ? (
+                        <FormError message={formik.errors.lastName} />
+                    ) : null }
                     <label className={labelStyles} htmlFor="email">
                         Email
                     </label>
-                    <input placeholder="Your email" id="email" className={inputStyles} value={formik.values.email} onChange={formik.handleChange}/>
+                    <input placeholder="Your email" id="email" className={inputStyles} value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                    { formik.touched.email && formik.errors.email ? (
+                        <FormError message={formik.errors.email} />
+                    ) : null }
                     <label className={labelStyles} htmlFor="password">
                         Password
                     </label>
-                    <input placeholder="Your password" id="password" className={inputStyles} type="password" value={formik.values.password} onChange={formik.handleChange}/>
+                    <input placeholder="Your password" id="password" className={inputStyles} type="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                    { formik.touched.password &&  formik.errors.password ? (
+                        <FormError message={formik.errors.password} />
+                    ) : null }
                     <input type="submit" value="Sign in" className="w-full bg-gray-800 hover:bg-gray-900 py-2 px-3 text-white capitalize mt-3"/>
                 </form>
             </div>
