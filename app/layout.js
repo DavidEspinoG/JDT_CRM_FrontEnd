@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
+import { ApolloWrapper } from "./lib/ApolloWrapper";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -10,15 +12,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <main className="flex">
-          <Sidebar />
-          <div className="p-5 bg-gray-200 sm:w-2/3 xl:w-4/5">
-            {children}
-          </div>
-        </main>
-      </body>
-    </html>
+      <html lang="en">
+        <body className={inter.className}>
+          <main className="flex">
+            <ApolloWrapper>
+              <Sidebar />
+              <div className="p-5 bg-gray-200 sm:w-2/3 xl:w-4/5">
+                {children}
+              </div>
+            </ApolloWrapper>
+          </main>
+        </body>
+      </html>
   );
 }
