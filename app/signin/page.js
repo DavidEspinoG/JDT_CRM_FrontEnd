@@ -3,10 +3,19 @@ import SectionTitle from "../components/SectionTitle";
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import FormError from "../components/FormError";
+import { useMutation, gql } from "@apollo/client";
 
 const SignIn = () => {
-    const labelStyles = "text-gray-700 font-bold";
-    const inputStyles = "shadow border rounded px-3 py-2 text-gray-700 leading-tight focus:outline-none focus:border-sky-500";
+    const NEW_USER_MUTATION = gql`
+        mutation newUser($data: newUserInput) {
+            newUser(data: $data) {
+                name
+                lastName
+                email
+                id
+            }
+    }`;
+    const [ createNewUser ] = useMutation(NEW_USER_MUTATION);
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -20,11 +29,22 @@ const SignIn = () => {
             email: string().email().required('E-mail is a required field'), 
             password: string().min(5, 'The password should have at least 5 characters')
         }), 
-        onSubmit: (values) => {
-            console.log(values);
+        onSubmit: async (values) => {
+            try {
+                const {data} = await createNewUser({
+                    variables: {
+                        data: {...values}
+                    }
+                })
+                console.log('user created', data)
+            } catch(e) {
+                console.log(e)
+            }
         }
     });
-    
+
+    const labelStyles = "text-gray-700 font-bold";
+    const inputStyles = "shadow border rounded px-3 py-2 text-gray-700 leading-tight focus:outline-none focus:border-sky-500";
     return (
         <>  
         <section className="flex w-full justify-center h-full items-center">
