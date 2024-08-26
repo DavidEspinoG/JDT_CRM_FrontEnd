@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import FormError from "../components/FormError";
 import { useMutation, gql } from "@apollo/client";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
     const NEW_USER_MUTATION = gql`
@@ -15,6 +16,7 @@ const SignIn = () => {
                 id
             }
     }`;
+    const router = useRouter();
     const [ createNewUser, { error } ] = useMutation(NEW_USER_MUTATION);
     const formik = useFormik({
         initialValues: {
@@ -37,6 +39,8 @@ const SignIn = () => {
                     }
                 })
                 console.log('user created', data)
+                confirm('User created succesfully. Do you want to login? ')
+                router.push('./login')
             } catch(e) {
                 console.log(e?.message)
             }
