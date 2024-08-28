@@ -4,15 +4,19 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import FormError from "../components/FormError";
 import { gql, useMutation } from "@apollo/client";
+import { useState } from 'react';
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+    const router = useRouter();
+    const [ successMessage, setSuccessMessage ] = useState(null);
     const LOGIN_MUTATION = gql`
         mutation AuthenticateUser($data: authenticateUserInput) {
             authenticateUser(data: $data) {
                 token
         }
     }`;
-    const [ loginUser ] = useMutation(LOGIN_MUTATION);
+    const [ loginUser, { error } ] = useMutation(LOGIN_MUTATION);
     const formik = useFormik({
         initialValues: {
             email: '', 
@@ -32,7 +36,16 @@ const Login = () => {
                         data: { ...values }
                     }
                 });
-                console.log(data.authenticateUser);
+                const token = data.authenticateUser.token
+                if(token) {
+                    localStorage.setItem('token', token);
+                    setSuccessMessage('User succesfully logged id, redirecting...');
+                    setTimeout(() => {
+                        router.push('/')
+                    }, 3000)
+                } else {
+                    console.log('error authenticating the user')
+                }
             } catch(e) {
                 console.log(e)
             }
@@ -80,10 +93,12 @@ const Login = () => {
                         <FormError message={formik.errors.password} />
                     ) : null }
                     <input type="submit" value="Login" className="w-full bg-gray-800 hover:bg-gray-900 py-2 px-3 text-white capitalize mt-3"/>
+                    { error ? <FormError message={error.message} /> : null}
+                    { successMessage ? <div>{successMessage}</div>: null}
                 </form>
             </div>
         </section>
     )
 };
 
-export default Login;
+export default Login; 

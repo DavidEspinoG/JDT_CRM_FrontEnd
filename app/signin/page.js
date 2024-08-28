@@ -5,6 +5,7 @@ import { object, string } from 'yup';
 import FormError from "../components/FormError";
 import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const SignIn = () => {
     const NEW_USER_MUTATION = gql`
@@ -86,7 +87,7 @@ const SignIn = () => {
                         <FormError message={formik.errors.password} />
                     ) : null }
                     <input type="submit" value="Sign in" className="w-full bg-gray-800 hover:bg-gray-900 py-2 px-3 text-white capitalize mt-3"/>
-                    { error ? <FormError message={context?.error?.message} /> : null}
+                    { error ? <FormError message={error.message} /> : null}
                 </form>
             </div>
         </section>
