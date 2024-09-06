@@ -39,10 +39,10 @@ const Login = () => {
                 const token = data.authenticateUser.token
                 if(token) {
                     localStorage.setItem('token', token);
-                    setSuccessMessage('User succesfully logged id, redirecting...');
-                    setTimeout(() => {
+                    setSuccessMessage('User succesfully logged in, redirecting...');
+                    // setTimeout(() => {
                         router.push('/')
-                    }, 3000)
+                    // }, 1000)
                 } else {
                     console.log('error authenticating the user')
                 }

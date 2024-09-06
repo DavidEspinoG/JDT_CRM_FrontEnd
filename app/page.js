@@ -2,8 +2,10 @@
 import SectionTitle from "./components/SectionTitle";
 import { gql, useQuery } from "@apollo/client";
 import Header from "./components/Header";
-
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 const Clients = () => {
+    const router = useRouter();
     const GET_CLIENTS_BY_ID = gql`
         query getClientsBySeller {
             getClientsBySeller {
@@ -17,13 +19,18 @@ const Clients = () => {
     const { data, loading, error } = useQuery(GET_CLIENTS_BY_ID);
 
     if(loading) return (<p>Loading...</p>) 
-    console.log(data);
     return (
         <>  
             <Header />
             <SectionTitle>
                 Products
             </SectionTitle>
+            <Link
+                href="/newClient"
+                className="bg-slate-700 text-white uppercase text-sm py-2 px-3 rounded hover:bg-slate-900 inline-block mt-3"
+            > 
+                Add new client
+            </Link>
             <table className="table-auto shadow-md mt-10 w-full w-lg">
                 <thead className="bg bg-gray-800">
                     <tr className="text-white">

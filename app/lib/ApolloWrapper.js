@@ -9,7 +9,8 @@ import { setContext } from "@apollo/client/link/context";
 
 function makeClient() {
   const httpLink = new createHttpLink({
-    uri: "http://localhost:4000"
+    uri: "http://localhost:4000",
+    
   });
 
   const authLink = setContext((_, { headers }) => {
@@ -18,7 +19,6 @@ function makeClient() {
       headers: {
         ...headers, 
         authorization: token ? `Bearer ${token}` : "",
-        test: 'my test'
       }
     }
   });

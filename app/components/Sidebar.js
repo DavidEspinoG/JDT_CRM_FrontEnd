@@ -24,7 +24,6 @@ const Sidebar = () => {
                     <p className="text-white text-2xl font-black">CRM Clients</p>
                 </Link>
                 <nav className="pt-3">
-                    { console.log(token)}
                     <ul>
                         { token ? 
                             privateLinks.map((link) => (

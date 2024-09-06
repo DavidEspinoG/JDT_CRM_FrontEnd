@@ -16,11 +16,11 @@ const Header = () => {
     
     const { data, loading, error } = useQuery(GET_USER);
     if(loading) return <p>Loading...</p>;
-    if(error) return null;
+    if(!data.getUserFromToken) return router.push('./login');
 
     return (
         <div className='flex justify-between mb-5'>
-            {data ? 
+            {data.getUserFromToken ? 
             <>
                 <p> Hello, {data?.getUserFromToken?.name} {data?.getUserFromToken?.lastName}</p>
                 <button
