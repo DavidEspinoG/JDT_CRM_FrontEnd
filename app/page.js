@@ -2,10 +2,9 @@
 import SectionTitle from "./components/SectionTitle";
 import { gql, useQuery } from "@apollo/client";
 import Header from "./components/Header";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 const Clients = () => {
-    const router = useRouter();
     const GET_CLIENTS_BY_ID = gql`
         query getClientsBySeller {
             getClientsBySeller {
@@ -19,6 +18,7 @@ const Clients = () => {
     const { data, loading, error } = useQuery(GET_CLIENTS_BY_ID);
 
     if(loading) return (<p>Loading...</p>) 
+    if(!data) redirect('/login')
     return (
         <>  
             <Header />

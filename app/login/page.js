@@ -16,7 +16,7 @@ const Login = () => {
                 token
         }
     }`;
-    const [ loginUser, { error } ] = useMutation(LOGIN_MUTATION);
+    const [ loginUser ] = useMutation(LOGIN_MUTATION);
     const formik = useFormik({
         initialValues: {
             email: '', 
@@ -40,9 +40,7 @@ const Login = () => {
                 if(token) {
                     localStorage.setItem('token', token);
                     setSuccessMessage('User succesfully logged in, redirecting...');
-                    // setTimeout(() => {
-                        router.push('/')
-                    // }, 1000)
+                    router.push('/');
                 } else {
                     console.log('error authenticating the user')
                 }
@@ -93,7 +91,6 @@ const Login = () => {
                         <FormError message={formik.errors.password} />
                     ) : null }
                     <input type="submit" value="Login" className="w-full bg-gray-800 hover:bg-gray-900 py-2 px-3 text-white capitalize mt-3"/>
-                    { error ? <FormError message={error.message} /> : null}
                     { successMessage ? <div>{successMessage}</div>: null}
                 </form>
             </div>

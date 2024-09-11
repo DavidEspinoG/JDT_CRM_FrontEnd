@@ -1,5 +1,5 @@
 "use client";
-import { HttpLink, createHttpLink } from "@apollo/client";
+import { createHttpLink } from "@apollo/client";
 import {
   ApolloNextAppProvider,
   ApolloClient,
@@ -29,7 +29,6 @@ function makeClient() {
   });
 }
 
-// you need to create a component to wrap your app in
 export function ApolloWrapper({ children }) {
   return (
     <ApolloNextAppProvider makeClient={makeClient}>
