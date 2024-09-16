@@ -4,18 +4,20 @@ import { gql, useQuery } from "@apollo/client";
 import Header from "./components/Header";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+
+export const GET_CLIENTS_BY_SELLER = gql`
+    query getClientsBySeller {
+        getClientsBySeller {
+            id
+            name
+            lastName
+            company
+            email 
+        }
+}`;
+
 const Clients = () => {
-    const GET_CLIENTS_BY_ID = gql`
-        query getClientsBySeller {
-            getClientsBySeller {
-                id
-                name
-                lastName
-                company
-                email 
-            }
-        }`;
-    const { data, loading, error } = useQuery(GET_CLIENTS_BY_ID);
+    const { data, loading, error } = useQuery(GET_CLIENTS_BY_SELLER);
 
     if(loading) return (<p>Loading...</p>) 
     if(!data) redirect('/login')
