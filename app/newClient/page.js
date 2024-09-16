@@ -5,6 +5,8 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { useMutation, gql } from "@apollo/client";
 import { useRouter, redirect } from "next/navigation";
+import { GET_CLIENTS_BY_SELLER } from "../page";
+
 const NewClient = () => {
     const router = useRouter();
     const NEW_CLIENT = gql`
@@ -12,12 +14,21 @@ const NewClient = () => {
             newClient(data: $data) {
             name
             lastName
+            company
             }
     }`;
     const [ createNewClient, { data, loading, error } ] = useMutation(NEW_CLIENT, {
-        refetchQueries: [
-            'getClientsBySeller'
-        ]
+        update(cache, data) {
+            const { data: { newClient }} = data;
+            const { getClientsBySeller } = cache.readQuery({ query : GET_CLIENTS_BY_SELLER });
+            
+            cache.writeQuery({
+                query: GET_CLIENTS_BY_SELLER, 
+                data: {
+                    getClientsBySeller: [ ...getClientsBySeller, newClient ]
+                }
+            })
+        }
     });
     const formik = useFormik({
         initialValues: {
@@ -39,9 +50,9 @@ const NewClient = () => {
             email: Yup.string()
                 .required('The email is required'),
         }), 
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             try {
-                createNewClient({ 
+                await createNewClient({ 
                     variables: {
                         data: {
                             ...values,
