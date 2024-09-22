@@ -24,7 +24,19 @@ function makeClient() {
   });
 
   return new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            getClientsBySeller: {
+              merge(existing, incoming) {
+                return incoming;
+              }
+            }
+          }
+        } 
+      }
+    }),
     link: authLink.concat(httpLink),
   });
 }

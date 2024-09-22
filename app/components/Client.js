@@ -1,4 +1,55 @@
+import Swal from 'sweetalert2';
+import { gql, useMutation } from "@apollo/client";
+import { GET_CLIENTS_BY_SELLER } from '../page';
+
 const Client = ({ client }) => {
+    const DELETE_CLIENT = gql`
+        mutation deleteClient($id: ID!) {
+            deleteClient(id: $id)
+        }
+    `;
+    const [ deleteClient ] = useMutation(DELETE_CLIENT, {
+        variables: {
+            id: client.id,
+        },
+        update(cache, data) {
+            const { data: { deleteClient } } = data;
+            const { getClientsBySeller } = cache.readQuery({ query: GET_CLIENTS_BY_SELLER });
+            const filteredCache = getClientsBySeller.filter((client) => {
+                return client.id !== deleteClient  
+            });
+            cache.writeQuery({
+                query: GET_CLIENTS_BY_SELLER,
+                data: {
+                    getClientsBySeller: filteredCache,
+                }
+            })
+        }
+    });
+
+    const handleDelete = async () => {
+        const userResponse = await Swal.fire({
+            title: 'Are you sure you want to delete it?',
+            text: 'You will not be able to revert this',
+            icon: 'warning',
+            showCancelButton: true, 
+            confirmButtonText: 'Yes, delete it',
+            cancelButtonText: 'Cancel'
+        })
+        if(userResponse?.isConfirmed) {
+            try {
+                await deleteClient();
+                Swal.fire({
+                    title: `The client ${client.name} has been deleted`,
+                    icon: 'success'
+                })
+            } catch(e) {
+                console.log(e);
+            }
+        }           
+    };
+
+
     return (
         <tr>
             <td className="border px-4 py-2">{client.name} {client.lastName}</td>
@@ -8,7 +59,7 @@ const Client = ({ client }) => {
                 <button 
                     className="bg-red-600 w-full text-white rounded py-2 hover:bg-red-700"
                     type="button"
-                    onClick={() => console.log(`Deleting id: ${client.id}`)}
+                    onClick={handleDelete}
                 >
                     Eliminar
                 </button>

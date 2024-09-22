@@ -20,7 +20,9 @@ const NewClient = () => {
     const [ createNewClient, { data, loading, error } ] = useMutation(NEW_CLIENT, {
         update(cache, data) {
             const { data: { newClient }} = data;
-            const { getClientsBySeller } = cache.readQuery({ query : GET_CLIENTS_BY_SELLER });
+            const { getClientsBySeller } = cache.readQuery({ 
+                query : GET_CLIENTS_BY_SELLER 
+            });
             
             cache.writeQuery({
                 query: GET_CLIENTS_BY_SELLER, 
