@@ -34,7 +34,9 @@ const EditClient = () => {
             }
         }
     `;
-    const [ updateClient ] = useMutation(UPDATE_CLIENT);
+    const [ updateClient ] = useMutation(UPDATE_CLIENT, {
+        refetchQueries: ['getClientsBySeller']
+    });
     const validationSchema = Yup.object({
         name: Yup.string()
             .required('The name is required'),
