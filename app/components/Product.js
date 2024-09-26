@@ -2,10 +2,11 @@
 import Swal from 'sweetalert2';
 import { useMutation } from "@apollo/client";
 import { useRouter } from 'next/navigation';
+import { DELETE_PRODUCT } from '../lib/mutations';
 
 const Product = ({ product }) => {
     const router = useRouter();
-
+    const [ deleteProduct ] = useMutation(DELETE_PRODUCT, { refetchQueries: ['getProducts']});
     const handleDelete = async () => {
         const userResponse = await Swal.fire({
             title: 'Are you sure you want to delete it?',
@@ -17,7 +18,11 @@ const Product = ({ product }) => {
         })
         if(userResponse?.isConfirmed) {
             try {
-                // await deleteClient();
+                await deleteProduct({
+                    variables: {
+                        id: product.id
+                    }
+                });
                 Swal.fire({
                     title: `The product ${product.name} has been deleted`,
                     icon: 'success'
@@ -29,7 +34,7 @@ const Product = ({ product }) => {
     };
 
     const handleEdit = () => {
-        router.push(`/editClient/${product.id}`);
+        router.push(`/editProduct/${product.id}`);
     };
 
     return (
