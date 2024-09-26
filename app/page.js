@@ -21,12 +21,12 @@ const Clients = () => {
     const { data, loading, error } = useQuery(GET_CLIENTS_BY_SELLER);
 
     if(loading) return (<p>Loading...</p>) 
-    if(!data) redirect('/login')
+    if(error) redirect('/login')
     return (
         <>  
             <Header />
             <SectionTitle>
-                Products
+                Clients
             </SectionTitle>
             <Link
                 href="/newClient"

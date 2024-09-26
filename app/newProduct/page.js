@@ -3,11 +3,15 @@ import SectionTitle from "../components/SectionTitle";
 import FormError from "../components/FormError";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { useMutation, gql } from "@apollo/client";
-import { useRouter, redirect } from "next/navigation";
-import { GET_CLIENTS_BY_SELLER } from "../page";
+import { useMutation } from "@apollo/client";
+import { redirect, useRouter } from "next/navigation";
+import { NEW_PRODUCT } from "../lib/mutations";
 
 const NewProduct = () => {
+    const router = useRouter();
+    const [ createNewProduct ] = useMutation(NEW_PRODUCT, {
+        refetchQueries: ['getProducts']
+    });
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -27,7 +31,17 @@ const NewProduct = () => {
         }), 
         onSubmit: async (values) => {
             try {
-                console.log(values);
+                const { name, price, items } = values;
+                await createNewProduct({
+                    variables: {
+                        data: {
+                            name,
+                            price: parseInt(price),
+                            items: parseInt(items)
+                        }
+                    }
+                });
+                router.push('/products')
             } catch(e) {
                 console.log(e)
             }
@@ -43,7 +57,7 @@ const NewProduct = () => {
         <section className="flex w-full justify-center h-full items-center">
             <div className="p-3">
                 <SectionTitle className={'text-center mb-5'}>
-                    New Client
+                    New Product
                 </SectionTitle>
                 <form className="bg-white p-7 flex flex-col gap-2 rounded" onSubmit={formik.handleSubmit}>
                     <label className={labelStyles} htmlFor="name">

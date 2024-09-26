@@ -11,7 +11,6 @@ const Products = () => {
 
     if(loading) return <>loading...</>
 
-    console.log(data?.getProducts)
     return (
         <>
             <SectionTitle>
