@@ -1,20 +1,9 @@
-"use client";
-import { gql, useQuery } from '@apollo/client'; 
-import { useRouter } from 'next/navigation';
+
+import { useQuery } from '@apollo/client'; 
+import { GET_USER } from '../lib/queries';
 
 const Header = () => {
-    const router = useRouter();
-    const GET_USER = gql`
-        query getUser {
-            getUserFromToken {
-                name
-                lastName
-                email
-            }
-        }
-    `;
-    
-    const { data, loading, error } = useQuery(GET_USER);
+    const { data, loading } = useQuery(GET_USER);
     if(loading) return <p>Loading...</p>;
     return (
         <div className='flex justify-between mb-5'>

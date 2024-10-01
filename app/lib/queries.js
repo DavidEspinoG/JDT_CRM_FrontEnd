@@ -20,3 +20,13 @@ export const GET_PRODUCT_BY_ID = gql`
         }
     }
 `;
+
+export const GET_USER = gql`
+        query getUser {
+            getUserFromToken {
+                name
+                lastName
+                email
+            }
+        }
+`;
