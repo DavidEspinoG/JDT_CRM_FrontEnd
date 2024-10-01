@@ -2,8 +2,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import { ApolloWrapper } from "./lib/ApolloWrapper";
-import Header from "./components/Header";
 const inter = Inter({ subsets: ["latin"] });
+import OrdersState from "./context/orders/OrdersState";
+
 
 export const metadata = {
   title: "My CRM",
@@ -16,10 +17,12 @@ export default function RootLayout({ children }) {
         <body className={inter.className} >
           <main className="flex">
             <ApolloWrapper>
-              <Sidebar />
-              <div className="p-5 bg-gray-200 sm:w-2/3 xl:w-4/5">
-                {children}
-              </div>
+              <OrdersState>
+                <Sidebar />
+                <div className="p-5 bg-gray-200 sm:w-2/3 xl:w-4/5">
+                  {children}
+                </div>
+              </OrdersState>
             </ApolloWrapper>
           </main>
         </body>

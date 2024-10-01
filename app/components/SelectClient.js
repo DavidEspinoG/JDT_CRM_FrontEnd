@@ -19,7 +19,8 @@ const SelectClient = () => {
             <Select
                 isMulti 
                 options={options}
-                instanceId={id} 
+                instanceId={id}
+                onChange={(e) => console.log(e)} 
             />
         </>
     ) : null;
