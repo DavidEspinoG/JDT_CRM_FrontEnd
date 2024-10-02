@@ -4,6 +4,7 @@ import SectionTitle from "../components/SectionTitle";
 import SelectClient from "../components/SelectClient";
 import ordersContext from "../context/orders/ordersContext";
 import { useContext } from "react";
+import ProductSelect from "../components/ProductSelect";
 
 const newOrder = () => {
     const context = useContext(ordersContext);
@@ -12,6 +13,7 @@ const newOrder = () => {
         <>
             <SectionTitle>New order</SectionTitle>
             <SelectClient/>
+            <ProductSelect />
         </>
     );
 };
