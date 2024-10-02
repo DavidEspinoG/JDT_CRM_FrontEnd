@@ -17,7 +17,7 @@ const SelectClient = () => {
 
     return isMounted ? (
         <>
-            <p className="">Select client</p>
+            <p className="bg-white text-gray-700 py-2 px-3 border-l-4 border-l-blue-500 mb-3 mt-3">Select client</p>
             <Select
                 options={getClientsBySeller}
                 instanceId={id}

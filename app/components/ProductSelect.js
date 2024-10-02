@@ -14,14 +14,10 @@ const ProductSelect = () => {
     }, [])
     const id = useId();
 
-    useEffect(() => {
-        console.log(state)
-    }, [state])
-
     if(loading) return null;
     return  isMounted ? (
         <>  
-            <p className="">Select products</p>
+            <p className="bg-white text-gray-700 py-2 px-3 border-l-4 border-l-blue-500 mb-3 mt-3">Select products</p>
             <Select 
                 options={data.getProducts}
                 instanceId={id}
