@@ -2,7 +2,7 @@
 import { useReducer } from 'react';
 import ordersContext from './ordersContext';
 import orderReducer from './ordersReducer';
-import { SELECT_CLIENT, SELECT_PRODUCT } from '../types';
+import { SELECT_CLIENT, SELECT_PRODUCT, PRODUCT_QUANTITY } from '../types';
 
 const OrdersState = ({ children }) => {
 
@@ -22,9 +22,29 @@ const OrdersState = ({ children }) => {
     };
 
     const updateProduct = (products) => {
+        let newState;
+        if(state.products.length > 0) {
+            newState = products.map(product => {
+                const newObject = state.products.find(productState => productState.id === product.id);
+                return {
+                    ...product, 
+                    ...newObject
+                }
+            })
+        } else {
+            newState = products;
+        }
+
         dispatch({
             type: SELECT_PRODUCT,   
-            payload: products
+            payload: newState
+        })
+    }
+
+    const updateQuantity = (update) => {
+        dispatch({
+            type: PRODUCT_QUANTITY,
+            payload: update,
         })
     }
 
@@ -32,7 +52,8 @@ const OrdersState = ({ children }) => {
         <ordersContext.Provider value={{ 
             state, 
             updateClient,
-            updateProduct, 
+            updateProduct,
+            updateQuantity 
         }}>
             {children}
         </ordersContext.Provider>

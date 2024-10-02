@@ -16,7 +16,7 @@ const Login = () => {
                 token
         }
     }`;
-    const [ loginUser ] = useMutation(LOGIN_MUTATION);
+    const [ loginUser ] = useMutation(LOGIN_MUTATION, { refetchQueries: ['getUser']});
     const formik = useFormik({
         initialValues: {
             email: '', 
@@ -41,6 +41,9 @@ const Login = () => {
                     localStorage.setItem('token', token);
                     setSuccessMessage('User succesfully logged in, redirecting...');
                     router.push('/');
+                    setTimeout(() => {
+                        location.reload(true);
+                    }, 100)
                 } else {
                     console.log('error authenticating the user')
                 }

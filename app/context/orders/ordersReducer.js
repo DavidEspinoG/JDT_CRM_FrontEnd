@@ -14,6 +14,17 @@ const orderReducer = (state, action) => {
                 ...state,
                 products: action.payload
             }
+        case PRODUCT_QUANTITY: 
+            return {
+                ...state, 
+                products: state.products.map((product) => {
+                    let updatedProduct = {...product}
+                    if(product.id == action.payload.id) {
+                        updatedProduct.quantity = action.payload.quantity
+                    }
+                    return updatedProduct;
+                }) 
+            }
         default:
             return state;
     }

@@ -24,7 +24,10 @@ const ProductSelect = () => {
                 getOptionValue={(option) => option.id}
                 getOptionLabel={(option) => option.name}
                 isMulti
-                onChange={(products) => updateProduct(products)}
+                onChange={(products) => {
+                    let cleanProducts = products.map((product) => ({id: product.id, quantity: 0, name: product.name, price: product.price}))
+                    updateProduct(cleanProducts)
+                }}
             />
         </>
     ) : null;

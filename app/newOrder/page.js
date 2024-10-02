@@ -5,6 +5,7 @@ import ordersContext from "../context/orders/ordersContext";
 import { useContext } from "react";
 import ProductSelect from "../components/ProductSelect";
 import SelectQuantity from "../components/SelectQuantity";
+import Total from "../components/Total";
 
 const newOrder = () => {
     const context = useContext(ordersContext);
@@ -17,6 +18,13 @@ const newOrder = () => {
                     <SelectClient/>
                     <ProductSelect />
                     <SelectQuantity />
+                    <Total />
+                    <button
+                        type="button"
+                        className={`bg-gray-600 w-full mt-5 p-2 text-white uppercase font-bold hover:bg-gray-900`}
+                    >
+                        Submit order
+                    </button>
                 </div>
             </div>
         </>
