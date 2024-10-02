@@ -30,3 +30,14 @@ export const GET_USER = gql`
             }
         }
 `;
+
+export const GET_CLIENTS_BY_SELLER = gql`
+    query getClientsBySeller {
+        getClientsBySeller {
+            id
+            name
+            lastName
+            company
+            email 
+        }
+}`;

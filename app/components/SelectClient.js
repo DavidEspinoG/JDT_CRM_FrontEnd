@@ -1,26 +1,29 @@
-import { useEffect, useState, useId } from "react";
+import { useEffect, useState, useId, useContext } from "react";
+import { useQuery } from "@apollo/client";
 import Select from "react-select";
-
-const options = [
-    { value: 'b8fd3c46-0894-4ce4-b7fe-ae6872386841', label: 'Chocolate' },
-    { value: '4b4378b7-5fd3-46d6-b35a-611802616d9c', label: 'Strawberry' },
-    { value: '1dd5a0b5-6e5a-42a8-afaf-208191513462', label: 'Vanilla' }
-]
+import { GET_CLIENTS_BY_SELLER } from "../lib/queries";
+import ordersContext from "../context/orders/ordersContext";
 
 const SelectClient = () => {
+    const { updateClient } = useContext(ordersContext);
+    const { data, loading, error } = useQuery(GET_CLIENTS_BY_SELLER)
     const [ isMounted, setIsMounted ] = useState(false);
     useEffect(() => {
         setIsMounted(true);
     }, [])
     const id = useId();
-    
+    if(loading) return null;
+    const { getClientsBySeller } = data;
+
     return isMounted ? (
         <>
+            <p className="bg-blue-300 border border-l-4 p-2 mb-3 text-gray-800 w-2/6">Select client</p>
             <Select
-                isMulti 
-                options={options}
+                options={getClientsBySeller}
                 instanceId={id}
-                onChange={(e) => console.log(e)} 
+                getOptionValue={(option) => option.id}
+                getOptionLabel={(option) => option.name}
+                onChange={(client) => updateClient(client)} 
             />
         </>
     ) : null;

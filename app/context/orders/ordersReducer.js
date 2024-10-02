@@ -4,7 +4,11 @@ import { SELECT_CLIENT,
 
 const orderReducer = (state, action) => {
     switch(action.type) {
-
+        case SELECT_CLIENT: 
+            return {
+                ...state, 
+                client: action.payload
+            }
         default:
             return state;
     }
